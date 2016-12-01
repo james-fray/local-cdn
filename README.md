@@ -1,4 +1,4 @@
-# local-cdn
+### Local CDN
 
  > WebExtension implementation of Decentraleyes project: Local emulation of Content Delivery Networks 
 
