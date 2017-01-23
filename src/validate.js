@@ -1,7 +1,7 @@
 'use strict';
 
 var validate = (function (paths) {
-  return (path) => paths.indexOf(path.replace('resources/', ''));
+  return (path) => paths.indexOf(path.replace('resources/', '')) !== -1;
 })([
   'angularjs/1.0.1/angular.min.js.dec',
   'angularjs/1.0.2/angular.min.js.dec',
@@ -24,6 +24,7 @@ var validate = (function (paths) {
   'angularjs/1.3.9/angular.min.js.dec',
   'angularjs/1.3.10/angular.min.js.dec',
   'angularjs/1.3.11/angular.min.js.dec',
+  'angularjs/1.3.13/angular.min.js.dec',
   'angularjs/1.3.14/angular.min.js.dec',
   'angularjs/1.3.15/angular.min.js.dec',
   'angularjs/1.3.3/angular.min.js.dec',
