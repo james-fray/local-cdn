@@ -1,4 +1,4 @@
-/* globals validate */
+/* globals validate, resources */
 'use strict';
 
 var app = {};
@@ -9,66 +9,83 @@ app.on = (id, callback) => {
 };
 app.emit = (id, value) => (app.callbacks[id] || []).forEach(c => c(value));
 
-var decentraleyes = {};
-
-// importing from detection module from https://github.com/Synzvato/decentraleyes project
-(function (iframe) {
-  iframe.src = './decentraleyes/loader.html';
-  iframe.onload = function () {
-    decentraleyes.getLocalTarget = iframe.contentWindow.exports.getLocalTarget;
-    decentraleyes.mappings = iframe.contentWindow.mappings;
-    decentraleyes.resources = iframe.contentWindow.resources;
-    app.emit('decentraleyes-ready');
-  };
-  document.body.appendChild(iframe);
-})(document.createElement('iframe'));
-
-app.on('decentraleyes-ready', () => {
-  let mappings = decentraleyes.mappings;
-  let filter = {
-    urls: [],
-    types: ['script', 'xmlhttprequest']
-  };
-  for (let host in mappings) {
-    for (let path in mappings[host]) {
-      filter.urls.push('*://' + host + path + '*');
-    }
-  }
-  app.emit('filter-ready', filter);
-});
-
 var cache = {};
 
-// redirecting to local resource if possible
-app.on('filter-ready', (filter) => {
-  chrome.webRequest.onBeforeRequest.addListener(d => {
-    let url = new URL(d.url);
-    let obj = decentraleyes.getLocalTarget(url.hostname, url.pathname);
-    if (obj) {
-      if (validate(obj.path)) {
-        let redirectUrl = chrome.runtime.getURL('data/' + obj.path);
-        // redirect even if tab is not found
+var filters = Object.keys(resources)
+  .map(host => Object.keys(resources[host]).map(path => host + path))
+  .reduce((a, b) => a.concat(b))
+  .map(url => '*://' + url + '*');
+
+function flattenObject (ob) {
+  let toReturn = {};
+
+  for (let i in ob) {
+    if (!ob.hasOwnProperty(i)) {
+      continue;
+    }
+    if ((typeof ob[i]) === 'object') {
+      let flatObject = flattenObject(ob[i]);
+      for (let x in flatObject) {
+        if (!flatObject.hasOwnProperty(x)) {
+          continue;
+        }
+        toReturn[i + '' + x] = flatObject[x];
+      }
+    }
+    else {
+      toReturn[i] = ob[i];
+    }
+  }
+  return toReturn;
+}
+
+chrome.webRequest.onBeforeRequest.addListener(d => {
+  let {pathname, hostname} = new URL(d.url);
+  let obj = resources[hostname];
+  if (obj) {
+    let list = flattenObject(obj);
+    let matches = Object.keys(list).filter(str => {
+      str = str.replace(/[-[\]{}()*+?.,\\^$|#\s\/]/g, '\\$&');
+      str = str.replace(/vrsn/g, '(?:\\d{1,2}\\.){1,3}\\d{1,2}');
+      return (new RegExp(str)).test(d.url);
+    });
+    if (matches.length) {
+      let version = /(?:\d{1,2}\.){1,3}\d{1,2}/.exec(d.url)[0];
+      let path = list[matches[0]].replace(/vrsn/g, version);
+
+      if (validate(path)) {
+        let redirectUrl = chrome.runtime.getURL('data/resources/' + path);
+
         if (cache[d.tabId]) {
           cache[d.tabId].push({
-            hostname: url.hostname,
-            pathname: url.pathname
+            hostname: hostname,
+            pathname: pathname
           });
           app.emit('update-badge', d.tabId);
         }
         else {
           console.error('resource is redirected but no tab is found');
         }
+
         return {
           redirectUrl
         };
       }
       else {
-        console.error('resource not found', d.url,  obj.path);
+        console.log('cannot find', d.url);
       }
     }
-    return {};
-  }, filter, ['blocking']);
-});
+  }
+  else {
+    console.log('resources of', hostname, 'not found');
+  }
+}, {
+    urls: filters,
+    types: ['script', 'xmlhttprequest']
+  },
+  ['blocking']
+);
+
 // resetting toolbar badge
 chrome.webRequest.onBeforeRequest.addListener(d => {
   if (cache[d.tabId]) {
