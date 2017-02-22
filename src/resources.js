@@ -11,7 +11,7 @@ var resources = {
       'jqueryui/vrsn/jquery-ui.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
       'jqueryui/vrsn/jquery-ui.min.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
       'mootools/vrsn/mootools-yui-compressed.': 'mootools/vrsn/mootools-yui-compressed.js.dec',
-      'prototype/vrsn/prototype.': 'prototype/vrsn/prototype.js.dec',
+      'prototype/vrsn/prototype.': 'prototype/vrsn/prototype.min.js.dec',
       'scriptaculous/vrsn/scriptaculous.': 'scriptaculous/vrsn/scriptaculous.js.dec',
       'swfobject/vrsn/swfobject.': 'swfobject/vrsn/swfobject.js.dec',
       'webfont/vrsn/webfont.': 'webfont/vrsn/webfont.js.dec',
@@ -72,6 +72,12 @@ var resources = {
       'underscore.js/vrsn/underscore.': 'underscore.js/vrsn/underscore-min.js.dec',
       'underscore.js/vrsn/underscore-min.': 'underscore.js/vrsn/underscore-min.js.dec',
       'webfont/vrsn/webfont': 'webfont/vrsn/webfont.js.dec',
+      'prototype/1.7.3/prototype.min.js': 'prototype/1.7.3.0/prototype.min.js.dec',
+      'prototype/1.7.3/prototype.js': 'prototype/1.7.3.0/prototype.min.js.dec',
+      'prototype/1.7.2/prototype.min.js': 'prototype/1.7.2.0/prototype.min.js.dec',
+      'prototype/1.7.2/prototype.js': 'prototype/1.7.2.0/prototype.min.js.dec',
+      'prototype/1.6.1/prototype.js': 'prototype/1.6.1.0/prototype.min.js.dec',
+      'prototype/1.6.1/prototype.mi.js': 'prototype/1.6.1.0/prototype.min.js.dec'
     }
   },
   'code.jquery.com': {
@@ -121,25 +127,7 @@ var resources = {
       'jquery-ui/vrsn/jquery-ui.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
       'jquery-ui/vrsn/jquery-ui.min.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
       'modernizr/vrsn/modernizr.': 'modernizr/vrsn/modernizr.min.js.dec',
-      'prototype/vrsn/prototype.': 'prototype/vrsn/prototype.js.dec',
-      'scriptaculous/vrsn/scriptaculous.': 'scriptaculous/vrsn/scriptaculous.js.dec',
-      'swfobject/vrsn/swfobject.': 'swfobject/vrsn/swfobject.js.dec',
-      'underscore/vrsn/underscore.': 'underscore.js/vrsn/underscore-min.js.dec',
-      'underscore/vrsn/underscore-min.': 'underscore.js/vrsn/underscore-min.js.dec',
-    }
-  },
-  'yandex.st': {
-    '/': {
-      'angularjs/vrsn/angular.': 'angularjs/vrsn/angular.min.js.dec',
-      'backbone/vrsn/backbone.': 'backbone.js/vrsn/backbone-min.js.dec',
-      'backbone/vrsn/backbone-min.': 'backbone.js/vrsn/backbone-min.js.dec',
-      'dojo/vrsn/dojo/dojo.': 'dojo/vrsn/dojo/dojo.js.dec',
-      'ext-core/vrsn/ext-core.': 'ext-core/vrsn/ext-core.js.dec',
-      'jquery/vrsn/jquery.': 'jquery/vrsn/jquery.min.js.dec',
-      'jquery-ui/vrsn/jquery-ui.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
-      'jquery-ui/vrsn/jquery-ui.min.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
-      'modernizr/vrsn/modernizr.': 'modernizr/vrsn/modernizr.min.js.dec',
-      'prototype/vrsn/prototype.': 'prototype/vrsn/prototype.js.dec',
+      'prototype/vrsn/prototype.': 'prototype/vrsn/prototype.min.js.dec',
       'scriptaculous/vrsn/scriptaculous.': 'scriptaculous/vrsn/scriptaculous.js.dec',
       'swfobject/vrsn/swfobject.': 'swfobject/vrsn/swfobject.js.dec',
       'underscore/vrsn/underscore.': 'underscore.js/vrsn/underscore-min.js.dec',
@@ -156,7 +144,7 @@ var resources = {
       'jqueryui/vrsn/jquery-ui.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
       'jqueryui/vrsn/jquery-ui.min.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
       'mootools/vrsn/mootools-yui-compressed.': 'mootools/vrsn/mootools-yui-compressed.js.dec',
-      'prototype/vrsn/prototype.': 'prototype/vrsn/prototype.js.dec',
+      'prototype/vrsn/prototype.': 'prototype/vrsn/prototype.min.js.dec',
       'scriptaculous/vrsn/scriptaculous.': 'scriptaculous/vrsn/scriptaculous.js.dec',
       'swfobject/vrsn/swfobject.': 'swfobject/vrsn/swfobject.js.dec',
       'underscore/vrsn/underscore.': 'underscore.js/vrsn/underscore-min.js.dec',
@@ -176,7 +164,7 @@ var resources = {
       'jquery-ui/vrsn/jquery-ui.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
       'jquery-ui/vrsn/jquery-ui.min.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
       'mootools/vrsn/mootools.': 'mootools/vrsn/mootools-yui-compressed.js.dec',
-      'prototype/vrsn/prototype.': 'prototype/vrsn/prototype.js.dec',
+      'prototype/vrsn/prototype.': 'prototype/vrsn/prototype.min.js.dec',
       'scriptaculous/vrsn/scriptaculous.': 'scriptaculous/vrsn/scriptaculous.js.dec',
       'swfobject/vrsn/swfobject.': 'swfobject/vrsn/swfobject.js.dec',
       'underscore/vrsn/underscore.': 'underscore.js/vrsn/underscore-min.js.dec',
@@ -210,40 +198,21 @@ var resources = {
       'ember.js/vrsn/ember.min.js': 'ember.js/vrsn/ember.min.js.dec',
       'mootools/vrsn/mootools-yui-compressed.js': 'mootools/vrsn/mootools-yui-compressed.js.dec',
       'mootools/vrsn/mootools-yui-compressed.min.js': 'mootools/vrsn/mootools-yui-compressed.js.dec',
-      'prototype/vrsn/prototype.js': 'prototype/vrsn/prototype.js.dec',
-      'prototype/vrsn/prototype.min.js': 'prototype/vrsn/prototype.js.dec',
+      'prototype/vrsn/prototype.min.js': 'prototype/vrsn/prototype.min.js.dec',
+      'prototype/vrsn/prototype.js': 'prototype/vrsn/prototype.min.js.dec',
       'scriptaculous/vrsn/scriptaculous.js': 'scriptaculous/vrsn/scriptaculous.js.dec',
       'scriptaculous/vrsn/scriptaculous.min.js': 'scriptaculous/vrsn/scriptaculous.js.dec',
       'swfobject/vrsn/swfobject.js': 'swfobject/vrsn/swfobject.js.dec',
       'underscore.js/vrsn/underscore-min.js': 'swfobject/vrsn/swfobject.js.dec',
       'underscore.js/vrsn/underscore.js': 'underscore.js/vrsn/underscore-min.js.dec',
       'webfont/vrsn/webfont.js': 'webfont/vrsn/webfont.js.dec',
-      'webfont/vrsn/webfont.min.js': 'webfont/vrsn/webfont.js.dec'
-    }
-  },
-  'cdn.css.net': {
-    '/libs/': {
-      'jquery/vrsn/jquery.js': 'jquery/vrsn/jquery.min.js.dec',
-      'jquery/vrsn/jquery.min.js': 'jquery/vrsn/jquery.min.js.dec',
-      'jqueryui/vrsn/jquery-ui.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
-      'jqueryui/vrsn/jquery-ui.min.js': 'jqueryui/vrsn/jquery-ui.min.js.dec',
-      'backbone.js/vrsn/backbone.js': 'backbone.js/vrsn/backbone-min.js.dec',
-      'backbone.js/vrsn/backbone.min.js': 'backbone.js/vrsn/backbone-min.js.dec',
-      'ext-core/vrsn/backbone.js': 'ext-core/vrsn/ext-core.js.dec',
-      'ext-core/vrsn/backbone.min.js': 'ext-core/vrsn/ext-core.js.dec',
-      'ember.js/vrsn/ember.js': 'ember.js/vrsn/ember.min.js.dec',
-      'ember.js/vrsn/ember.min.js': 'ember.js/vrsn/ember.min.js.dec',
-      'mootools/vrsn/mootools-yui-compressed.js': 'mootools/vrsn/mootools-yui-compressed.js.dec',
-      'mootools/vrsn/mootools-yui-compressed.min.js': 'mootools/vrsn/mootools-yui-compressed.js.dec',
-      'prototype/vrsn/prototype.js': 'prototype/vrsn/prototype.js.dec',
-      'prototype/vrsn/prototype.min.js': 'prototype/vrsn/prototype.js.dec',
-      'scriptaculous/vrsn/scriptaculous.js': 'scriptaculous/vrsn/scriptaculous.js.dec',
-      'scriptaculous/vrsn/scriptaculous.min.js': 'scriptaculous/vrsn/scriptaculous.js.dec',
-      'swfobject/vrsn/swfobject.js': 'swfobject/vrsn/swfobject.js.dec',
-      'underscore.js/vrsn/underscore-min.js': 'swfobject/vrsn/swfobject.js.dec',
-      'underscore.js/vrsn/underscore.js': 'underscore.js/vrsn/underscore-min.js.dec',
-      'webfont/vrsn/webfont.js': 'webfont/vrsn/webfont.js.dec',
-      'webfont/vrsn/webfont.min.js': 'webfont/vrsn/webfont.js.dec'
+      'webfont/vrsn/webfont.min.js': 'webfont/vrsn/webfont.js.dec',
+      'prototype/1.7.3/prototype.min.js': 'prototype/1.7.3.0/prototype.min.js.dec',
+      'prototype/1.7.3/prototype.js': 'prototype/1.7.3.0/prototype.min.js.dec',
+      'prototype/1.7.2/prototype.min.js': 'prototype/1.7.2.0/prototype.min.js.dec',
+      'prototype/1.7.2/prototype.js': 'prototype/1.7.2.0/prototype.min.js.dec',
+      'prototype/1.6.1/prototype.js': 'prototype/1.6.1.0/prototype.min.js.dec',
+      'prototype/1.6.1/prototype.mi.js': 'prototype/1.6.1.0/prototype.min.js.dec'
     }
   },
   'cdn.staticfile.org': {
@@ -254,3 +223,6 @@ var resources = {
     }
   }
 };
+
+resources['yandex.st'] = resources['yastatic.net'];
+resources['cdn.css.net'] = resources['cdn.bootcss.com'];

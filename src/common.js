@@ -1,15 +1,7 @@
 /* globals validate, resources */
 'use strict';
 
-var app = {};
-app.callbacks = {};
-app.on = (id, callback) => {
-  app.callbacks[id] = app.callbacks[id] || [];
-  app.callbacks[id].push(callback);
-};
-app.emit = (id, value) => (app.callbacks[id] || []).forEach(c => c(value));
-
-var cache = {}, root = chrome.runtime.getURL('data/resources/');
+var cache = {}, root = chrome.runtime.getURL('data/resources/'), vRegExp = /(?:\d{1,2}\.){1,3}\d{1,2}/;
 
 var filters = Object.keys(resources)
   .map(host => Object.keys(resources[host]).map(path => host + path))
@@ -33,67 +25,7 @@ function flattenObject (obj) {
   return toReturn;
 }
 
-chrome.webRequest.onBeforeRequest.addListener(d => {
-  let {pathname, hostname} = new URL(d.url);
-  let obj = resources[hostname];
-  if (obj) {
-    let list = flattenObject(obj);
-    let matches = Object.keys(list).filter(str => {
-      str = str.replace(/[-[\]{}()*+?.,\\^$|#\s\/]/g, '\\$&');
-      str = str.replace(/vrsn/g, '(?:\\d{1,2}\\.){1,3}\\d{1,2}');
-      return (new RegExp(str)).test(d.url);
-    });
-    if (matches.length) {
-      let version = /(?:\d{1,2}\.){1,3}\d{1,2}/.exec(d.url)[0];
-      let path = list[matches[0]].replace(/vrsn/g, version);
-
-      if (validate(path)) {
-        let redirectUrl = root + path;
-
-        if (cache[d.tabId]) {
-          cache[d.tabId].push({
-            hostname: hostname,
-            pathname: pathname
-          });
-          app.emit('update-badge', d.tabId);
-        }
-        else {
-          console.error('resource is redirected but no tab is found');
-        }
-
-        return {
-          redirectUrl
-        };
-      }
-      else {
-        console.log('cannot find', d.url);
-      }
-    }
-  }
-  else {
-    console.log('resources of', hostname, 'not found');
-  }
-}, {
-    urls: filters,
-    types: ['script', 'xmlhttprequest']
-  },
-  ['blocking']
-);
-
-// resetting toolbar badge
-chrome.webRequest.onBeforeRequest.addListener(d => {
-  if (cache[d.tabId]) {
-    cache[d.tabId] = [];
-    app.emit('update-badge', d.tabId);
-  }
-}, {
-  urls: ['<all_urls>'],
-  types: ['main_frame']
-}, []);
-
-// badge
-chrome.tabs.query({}, tabs => tabs.forEach(t => cache[t.id] = []));
-app.on('update-badge', (tabId) => {
+function badge (tabId) {
   if (!cache[tabId]) {
     return;
   }
@@ -107,7 +39,76 @@ app.on('update-badge', (tabId) => {
     tabId,
     title
   });
-});
+}
+
+function logger () {
+  //console.log.apply(console.log, arguments);
+}
+
+function observe (d) {
+  let {pathname, hostname} = new URL(d.url);
+  let obj = resources[hostname];
+  if (obj) {
+    let list = flattenObject(obj);
+    let matches = Object.keys(list).filter(str => {
+      str = str.replace(/[-[\]{}()*+?.,\\^$|#\s\/]/g, '\\$&');
+      str = str.replace(/vrsn/g, '(?:\\d{1,2}\\.){1,3}\\d{1,2}');
+      return (new RegExp(str)).test(d.url);
+    });
+    if (matches.length) {
+      let path = list[matches.pop()];
+      // sometimes there is no "vrsn"
+      if (path.indexOf('vrsn') !== -1) {
+        let version = vRegExp.exec(d.url);
+        path = path.replace(/vrsn/g, version);
+      }
+      if (validate(path)) {
+        let redirectUrl = root + path;
+
+        if (cache[d.tabId]) {
+          cache[d.tabId].push({hostname, pathname});
+          badge(d.tabId);
+        }
+        else {
+          logger('resource is redirected but no tab is found');
+        }
+
+        return {
+          redirectUrl
+        };
+      }
+      else {
+        logger('cannot find', d.url);
+      }
+    }
+    else {
+      logger('cannot find version from', d.url);
+    }
+  }
+  else {
+    logger('resources of', hostname, 'not found');
+  }
+}
+
+chrome.webRequest.onBeforeRequest.addListener(observe, {
+    urls: filters,
+    types: ['script', 'xmlhttprequest']
+  },
+  ['blocking']
+);
+
+// resetting toolbar badge
+chrome.webRequest.onBeforeRequest.addListener(d => {
+  if (cache[d.tabId]) {
+    cache[d.tabId] = [];
+    badge(d.tabId);
+  }
+}, {
+  urls: ['<all_urls>'],
+  types: ['main_frame']
+}, []);
+// badge
+chrome.tabs.query({}, tabs => tabs.forEach(t => cache[t.id] = []));
 chrome.tabs.onCreated.addListener((tab) => cache[tab.id] = []);
 // cleanup
 chrome.tabs.onRemoved.addListener((tabId) => delete cache[tabId]);

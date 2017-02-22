@@ -3,7 +3,7 @@
   "short_name": "ilclcdn",
   "description": "Local emulation of Content Delivery Networks",
   "author": "James Fray",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "manifest_version": 2,
   "permissions": [
     "storage",
