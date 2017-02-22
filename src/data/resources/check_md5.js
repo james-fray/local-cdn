@@ -18,6 +18,11 @@ var md5 = {
     });
   },
   web: url => {
+    // fixes for prototype
+    url = url.replace('prototype/1.6.1.0', 'prototype/1.6.1');
+    url = url.replace('prototype/1.7.2.0', 'prototype/1.7.2');
+    url = url.replace('prototype/1.7.3.0', 'prototype/1.7.3');
+
     return new Promise(resolve => {
       https.get(url, (res) => {
         let data = [];
@@ -49,7 +54,14 @@ function check (path) {
       console.log('OK', path, a[0].md5);
     }
     else {
-      console.log('\x1b[31m%s\x1b[0m: ', path);
+      console.log('\x1b[31m%s\x1b[0m', 'MD5 does not match or resource cannot be found', path);
+      // rewrite if found
+      if (a[1].md5) {
+        fs.writeFile(path + '.dec', a[1].data, () => path + ' is fixed!');
+      }
+      else if (a[2].md5) {
+        fs.writeFile(path + '.dec', a[2].data, () => path + ' is fixed!');
+      }
     }
   });
 }
