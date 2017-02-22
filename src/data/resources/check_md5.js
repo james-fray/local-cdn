@@ -55,13 +55,15 @@ function check (path) {
     }
     else {
       console.log('\x1b[31m%s\x1b[0m', 'MD5 does not match or resource cannot be found', path);
-      // rewrite if found
+      // rewrite if found and MD5 does not match
+      /*
       if (a[1].md5) {
         fs.writeFile(path + '.dec', a[1].data, () => path + ' is fixed!');
       }
       else if (a[2].md5) {
         fs.writeFile(path + '.dec', a[2].data, () => path + ' is fixed!');
       }
+      */
     }
   });
 }
