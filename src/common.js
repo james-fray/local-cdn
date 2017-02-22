@@ -9,31 +9,25 @@ app.on = (id, callback) => {
 };
 app.emit = (id, value) => (app.callbacks[id] || []).forEach(c => c(value));
 
-var cache = {};
+var cache = {}, root = chrome.runtime.getURL('data/resources/');
 
 var filters = Object.keys(resources)
   .map(host => Object.keys(resources[host]).map(path => host + path))
   .reduce((a, b) => a.concat(b))
   .map(url => '*://' + url + '*');
 
-function flattenObject (ob) {
+function flattenObject (obj) {
   let toReturn = {};
 
-  for (let i in ob) {
-    if (!ob.hasOwnProperty(i)) {
-      continue;
-    }
-    if ((typeof ob[i]) === 'object') {
-      let flatObject = flattenObject(ob[i]);
+  for (let i in obj) {
+    if (typeof obj[i] === 'object') {
+      let flatObject = flattenObject(obj[i]);
       for (let x in flatObject) {
-        if (!flatObject.hasOwnProperty(x)) {
-          continue;
-        }
-        toReturn[i + '' + x] = flatObject[x];
+        toReturn[i + x] = flatObject[x];
       }
     }
     else {
-      toReturn[i] = ob[i];
+      toReturn[i] = obj[i];
     }
   }
   return toReturn;
@@ -54,7 +48,7 @@ chrome.webRequest.onBeforeRequest.addListener(d => {
       let path = list[matches[0]].replace(/vrsn/g, version);
 
       if (validate(path)) {
-        let redirectUrl = chrome.runtime.getURL('data/resources/' + path);
+        let redirectUrl = root + path;
 
         if (cache[d.tabId]) {
           cache[d.tabId].push({
