@@ -72,7 +72,6 @@ function observe (d) {
         else {
           logger('resource is redirected but no tab is found');
         }
-
         return {
           redirectUrl
         };
@@ -110,6 +109,9 @@ chrome.webRequest.onBeforeRequest.addListener(d => {
 // badge
 chrome.tabs.query({}, tabs => tabs.forEach(t => cache[t.id] = []));
 chrome.tabs.onCreated.addListener((tab) => cache[tab.id] = []);
+chrome.browserAction.setBadgeBackgroundColor({
+  color: '#818181'
+});
 // cleanup
 chrome.tabs.onRemoved.addListener((tabId) => delete cache[tabId]);
 
